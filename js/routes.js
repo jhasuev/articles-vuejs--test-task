@@ -7,11 +7,19 @@ const Login = {
 	template: `
 		<app-login></app-login>
 	`,
+	created: function() {
+		
+		eventEmitter.$emit("checkAdmin", (isAdmin) => {
+			if (isAdmin) {
+				router.push('/edit');
+			}
+		});
+	}
 }
 const Logout = {
 	template: `<div></div>`,
 	created: function() {
-		
+
 		axios.get('do_action.php?act=logout')
 		.then(res => {
 			router.push('/');
@@ -29,8 +37,8 @@ const Edit = {
 	`,
 	created: function() {
 
-		eventEmitter.$emit("checkAdmin", (res) => {
-			if (!res) {
+		eventEmitter.$emit("checkAdmin", (isAdmin) => {
+			if (!isAdmin) {
 				router.push('/login');
 			}
 		});
